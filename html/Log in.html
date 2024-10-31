@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/common//container/login_container.css">
+    <link rel="stylesheet" href="/css/common/header/header_3.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="icon" href="/assets/images/logo/favicon_1.png"/>
+    <title>로그인할 수 있는 페이지</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h4 class="header-title">
+                아무 말 대잔치
+            </h4>
+        </header>
+        <h2>로그인</h2>
+        <div class="login-container">
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="email">이메일</label>
+                    <input type="email" id="email" name="email" placeholder="이메일을 입력하세요" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                </div>
+                <div class="error-message" id="emailError"></div>
+                <div class="input-group">
+                    <label for="password">비밀번호</label>
+                    <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" required minlength="6">
+                </div>
+                <div class="error-message" id="passwordError"></div>
+            </form>
+        </div>
+        <div id="login-button">
+            <button type="submit" class="login-button">로그인</button>
+        </div>
+        <div id="signin-button">
+            <div class="signin-button">회원가입</div>
+        </div>
+    </div>
+    <script src="/js/login.js"></script>
+</body>
+</html>

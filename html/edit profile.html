@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원정보를 수정할 수 있는 페이지</title>
+    <link rel="stylesheet" href="/css/common/container/container_4.css">
+    <link rel="stylesheet" href="/css/common/header/header_5.css">
+    <link rel="stylesheet" href="/css/edit profile.css">
+    <link rel="icon" href="/assets/images/logo/favicon_1.png"/>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="head">
+                <div class="title">
+                    <h4>아무 말 대잔치</h4>
+                </div>
+                <div class="avatar">
+                    <img src="/assets/images/logo/board-list-icon.png" alt="Profile Image" class="profile-img" id="profileImg">
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <a href="/html/edit profile.html">회원정보수정</a>
+                        <a href="/html/edit password.html">비밀번호수정</a>
+                        <a href="#">로그아웃</a>
+                    </div>
+                </div>
+            </div>            
+        </header>
+        <main>
+            <h2 class="section-title">회원정보수정</h2>
+            <div class="profile-section">
+                <div class="profile-image" id="profileImageContainer">
+                    <img id="profileImage" src="" alt="프로필 이미지" style="display: none;">
+                    <button class="upload-button" id="uploadButton">변경</button>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                </div>
+            </div>
+
+            <div class="info-section">
+                <label for="email">이메일</label>
+                <input type="email" id="email" placeholder="dev.gsandoo@gmail.com" readonly>
+
+                <label for="nickname">닉네임</label>
+                <input type="text" id="nickname" placeholder="산도" >
+                <div class="error-message" id="nicknameError"></div>
+                
+                <div class="button-group">
+                    <button id="updateButton">수정하기</button>
+                    <button id="deleteButton">회원 탈퇴</button>
+                    <div class="toast-message" id="toastMessage">수정완료</div>
+                </div>
+            </div>
+            <div class="modal" id="deleteModal">
+                <div class="modal-content">
+                    <h2>회원탈퇴 하시겠습니까?</h2>
+                    <p>작성된 게시글과 댓글은 삭제됩니다.</p>
+                    <div class="modal-button-group">
+                        <button id="cancelDelete">취소</button>
+                        <button id="confirmDelete">확인</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="/js/edit profile.js"></script>
+</body>
+</html>

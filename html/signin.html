@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입 페이지</title>
+    <link rel="stylesheet" href="/css/common/container/container_4.css">
+    <link rel="stylesheet" href="/css/common/header/header_4.css">
+    <link rel="stylesheet" href="/css/signin.css">
+    <link rel="icon" href="/assets/images/logo/favicon_1.png"/>
+</head>
+<body>
+    <div class="container">
+        <div id="header"></div>
+        <div class="signup-container">
+            <h2>회원가입</h2>
+            <div class="profile-section">
+                <div class="profile-image" id="profileImageContainer">
+                    <img id="profileImage" src="" alt="프로필 이미지" style="display: none;">
+                    <button class="upload-button" id="uploadButton">+</button>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                </div>
+                <p class="profile-label">프로필 사진 변경</p>
+            </div>
+            
+
+            <form class="signup-form">
+                <label for="email">이메일</label>
+                <input type="email" id="email" placeholder="이메일을 입력하세요" required>
+                <div class="error-message" id="emailError"></div>
+
+                <label for="password">비밀번호</label>
+                <input type="password" id="password" placeholder="비밀번호를 입력하세요" required>
+                <div class="error-message" id="passwordError"></div>
+
+                <label for="confirm-password">비밀번호 확인</label>
+                <input type="password" id="confirm-password" placeholder="비밀번호를 다시 입력하세요" required>
+                <div class="error-message" id="confirmPasswordError"></div>
+
+                <label for="nickname">닉네임</label>
+                <input type="text" id="nickname" placeholder=" 닉네임을 입력하세요" required>
+                <div class="error-message" id="nicknameError"></div>
+
+                <button type="submit" id="submit-button">회원가입</button>
+            </form>
+
+            <div class="login-link">
+                <a href="/html/Log in.html">로그인하러 가기</a>
+            </div>
+        </div>
+    </div>
+    <script src="/js/common/header_4.js"></script>
+    <script src="/js/signin.js"></script>
+</body>
+</html>
