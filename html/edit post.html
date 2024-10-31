@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 수정 페이지</title>
+    <link rel="stylesheet" href="/css/common/container/container.css">
+    <link rel="stylesheet" href="/css/common/header/header_2.css">
+    <link rel="stylesheet" href="/css/edit post.css">
+    <link rel="icon" href="/assets/images/logo/favicon_1.png"/>
+</head>
+<body>
+    <div class="container">
+        <div id="header"></div>
+        <h2>게시글 수정</h2>
+        <form action="#" method="post">
+            <label for="title">제목*</label>
+            <input type="text" id="title" name="title" placeholder="제목을 입력하세요" required>
+
+            <label for="content">내용*</label>
+            <textarea id="content" name="content" placeholder="내용을 입력하세요" required></textarea>
+
+            <label for="image">이미지</label>
+            <div class="file-input">
+                <div class="file">
+                    <input type="file" id="image" name="image">
+                </div>
+                <span class="file-name">/assets/images/post/ 하위 이미지 선택해주세요</span>
+            </div>
+
+            <button class="submit-button" type="submit">수정하기</button>
+        </form>
+    </div>
+    <script src="/js/common/header_2.js"></script>
+    <script src="/js/edit post.js"></script>
+</body>
+</html>
