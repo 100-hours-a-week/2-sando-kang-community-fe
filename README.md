@@ -1,7 +1,7 @@
-# 1주차 커뮤니티 과제
-카카오테크 클라우드 네이티브 in Jeju 2기 산도 1주차 과제
+# 커뮤니티 만들기
+카카오테크 클라우드 네이티브 in Jeju 2기 커뮤니티 과제
 
-## <div><img src="https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=header&text=Sando-Community&fontSize=90" /></div>
+## <div><img src="https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=header&text=산도-커뮤니티&fontSize=90" /></div>
 
 - - - - - - - - - - - - - - - -
 
@@ -28,7 +28,7 @@
 
 ## 1. 프로젝트 주제
 <div>
-<h4> KTB 1주차 커뮤니티 만들기 (서버 제외)
+<h4> KTB 커뮤니티 만들기
 </div>
 
 ## 2. 개요
