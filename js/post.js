@@ -1,88 +1,33 @@
-// 글 작성 시 버튼 색상 변경
+import { handleLocation } from '../util/handleLocation.js';
+import { getLocalStorage, saveLocalStorage } from '../util/session.js';
+
 const textarea = document.getElementById('text');
 const commentSubmitDiv = document.querySelector('.comment-submit');
-// 댓글 삭제 모달
+
 const commentModal = document.querySelector('.comment-modal');
 const commentBtnOpenModal=document.querySelector('.comment-delete');
 const commentDeleteCancel = document.querySelector('#comment-cancel');
 const commentDeleteOk = document.querySelector('#comment-ok');
-// 글 삭제 모달
+
 const modal = document.querySelector('.modal');
 const btnOpenModal=document.querySelector('.delete');
 const deleteCancel = document.querySelector('#cancel');
 const deleteOk = document.querySelector('#ok');
 const authorName = document.querySelector('.author-name');
-// 수정 버튼 클릭 시 수정 페이지 이동
+
 const modifyBtn = document.querySelector(".edit");
-//댓글 등록 시 서버 요청 후 데이터 저장 
+
 const commentSubmit = document.querySelector('.comment-submit');
-// 댓글 수정
+
 const editButtons = document.querySelectorAll('.comment-edit');
 const submitButton = document.querySelector('.comment-submit');
 const commentField = document.getElementById('text');
 
-
-function modifyHandler(){
-    const title = document.querySelector('h2').innerText;
-    const content = document.querySelector('.post-article p').innerText;
-    localStorage.setItem('editTitle', title);
-    localStorage.setItem('editContent', content);
-    handleLocation("/html/edit post.html");
-}
-
-function formatNumber(num) {
-    if (num >= 100000) {
-        return Math.floor(num / 1000) + 'k'; 
-    } else if (num >= 10000) {
-        return (num / 1000).toFixed(0) + 'k'; 
-    } else if (num >= 1000) {
-        return (num / 1000).toFixed(1) + 'k';
-    } else {
-        return num.toString(); 
-    }
-}
-
-// 좋아요, 조회수, 댓글 업데이트 함수
-function updatePostStats() {
-    
-    fetch('')  //  엔드포인트
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('likesCount').innerText = `${formatNumber(data.likes)} 좋아요수`;
-            document.getElementById('viewsCount').innerText = `${formatNumber(data.views)} 조회수`;
-            document.getElementById('commentsCount').innerText = `${formatNumber(data.comments)} 댓글`;
-        })
-        .catch(error => console.error('Error fetching post stats:', error));
-}
-
-
-// 페이지 로드 시 수정된 데이터 적용
 window.addEventListener('DOMContentLoaded', function () {
     
-    const updatedTitle      = localStorage.getItem('updatedTitle');
-    const updatedContent    = localStorage.getItem('updatedContent');
-    const updatedDate       = localStorage.getItem('updatedDate');
-    const updatedImage      = localStorage.getItem('updatedImage'); 
-
-    let currentEditComment = null;
-
-    // 수정된 데이터가 있는 경우 페이지에 반영
-    if (updatedTitle) {
-        document.querySelector('h2').innerText = updatedTitle;
-    }
-    if (updatedContent) {
-        document.querySelector('.post-article p').innerText = updatedContent;
-    }
-
-    if (updatedDate) {
-        this.document.querySelector('.author-info span:nth-child(2)').innerText = updatedDate;
-    }
-
-    if (updatedImage) {
-        this.document.querySelector('.post-img img').src = updatedImage;
-    }
-
-    // 수정 버튼 클릭 이벤트
+    applyPostDataToPage();
+    
+    // NOTE: 댓글 불러오는 로직 필요
     editButtons.forEach(button => {
         button.addEventListener('click', (event) => {
             const commentDiv = event.target.closest('.comment'); 
@@ -95,12 +40,11 @@ window.addEventListener('DOMContentLoaded', function () {
         });
     });
  
-     // 댓글 수정 버튼 클릭 이벤트
      submitButton.addEventListener('click', () => {
          if (currentEditComment) { 
              const newContent = commentField.value.trim(); 
  
-             if (newContent) { // 내용이 비어있지 않은 경우에만 수정
+             if (newContent) { 
                  currentEditComment.querySelector('.comment-content p').innerText = newContent;
                  
                  
@@ -124,6 +68,69 @@ window.addEventListener('DOMContentLoaded', function () {
          }
      });
 });
+
+function applyPostDataToPage() {
+    const fields = {
+        title: { selector: 'h2', attribute: 'innerText' },
+        content: { selector: '.post-article p', attribute: 'innerText' },
+        date: [
+            { selector: '.author-info span:nth-child(2)', attribute: 'innerText' },
+            { selector: '.date', attribute: 'innerText' }
+        ],
+        profile: { selector: '.post-img img', attribute: 'src' },
+        author: { selector: '.author-name', attribute: 'innerText' },
+        likes: { selector: '#likesCount', attribute: 'innerText', suffix: ' 좋아요' },
+        views: { selector: '#viewsCount', attribute: 'innerText', suffix: ' 조회수' },
+        comments: { selector: '#commentsCount', attribute: 'innerText', suffix: ' 댓글' }
+    };
+
+    Object.keys(fields).forEach(key => {
+        const value = getLocalStorage(key);
+        if (!value) return;
+
+        const field = fields[key];
+        const elements = Array.isArray(field) ? field : [field];
+
+        elements.forEach(({ selector, attribute, suffix = '' }) => {
+            const element = document.querySelector(selector);
+            if (element) element[attribute] = value + suffix;
+        });
+    });
+}
+
+function modifyHandler(){
+    const title = document.querySelector('h2').innerText;
+    const content = document.querySelector('.post-article p').innerText;
+    localStorage.setItem('editTitle', title);
+    localStorage.setItem('editContent', content);
+    handleLocation("/html/edit post.html");
+}
+
+function formatNumber(num) {
+    if (num >= 100000) {
+        return Math.floor(num / 1000) + 'k'; 
+    } else if (num >= 10000) {
+        return (num / 1000).toFixed(0) + 'k'; 
+    } else if (num >= 1000) {
+        return (num / 1000).toFixed(1) + 'k';
+    } else {
+        return num.toString(); 
+    }
+}
+
+
+function updatePostStats() {
+    
+    fetch('') 
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('likesCount').innerText = `${formatNumber(data.likes)} 좋아요수`;
+            document.getElementById('viewsCount').innerText = `${formatNumber(data.views)} 조회수`;
+            document.getElementById('commentsCount').innerText = `${formatNumber(data.comments)} 댓글`;
+        })
+        .catch(error => console.error('Error fetching post stats:', error));
+}
+
 
 textarea.addEventListener('input', function() {
     if (textarea.value.trim() !== '') {
@@ -168,6 +175,4 @@ commentSubmit.addEventListener('click',()=>{
     ///
 })
 
-function handleLocation(url) {
-    window.location.href = url
-}
+

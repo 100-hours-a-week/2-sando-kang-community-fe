@@ -1,3 +1,7 @@
+import { emailValidCheck, pwValidCheck } from '../util/validation.js';
+import { handleLocation } from '../util/handleLocation.js';
+import { getLocalStorage, saveLocalStorage } from '../util/session.js';
+  
   const signInTxt = document.querySelector('.signin-button')
   const inputEmail = document.getElementById('email')
   const inputPassword = document.getElementById('password')
@@ -32,44 +36,56 @@
     if (emailCheck && pwCheck) {
       submit.style.backgroundColor = '#7f6aee'
       submit.style.cursor = 'pointer'
+      
+      saveLocalStorage('email', inputEmail.value.trim());
+      saveLocalStorage('pw', inputPassword.value.trim());
+     
       return true
     }else{
       submit.style.backgroundColor = '#ACA0EB'
     }
   }
 
-  // TODO: 로그인 api 연동 추가
-  if (submit) {
-    submit.addEventListener('click', (event) => {
-      event.preventDefault()
-      if (validateForm()) {
-        
-        handleLocation('')
-      }
-    })
-  }
+//NOTE: 로그인
+submit.addEventListener('click', (event) => {
+    event.preventDefault()
+    if (validateForm()) {
+      
+      const email = getLocalStorage('email');
+      const pw = getLocalStorage('pw');
+     
+      fetch(`http://localhost:3000/api/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: pw,
+        }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        const success = data.success;
+        if(success){
+          alert('로그인이 정상적으로 이루어졌습니다.')
+          const userId = data.user_id; 
+          localStorage.setItem("userId", userId); 
+          handleLocation("/html/Posts.html");
+        }else{
+          alert(`로그인이 되지 않았습니다. : ${data.message}`);
+        }
+      })
+      .catch(error => console.error("Error:", error));
+    }    
+  });
 
-  // TODO: 회원가입 api 연동 추가
+
   if (signInTxt) {
     signInTxt.addEventListener('click', () =>
     handleLocation('/html/signin.html'),
     )
   }
 
-  function emailValidCheck(email) {
-    const pattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+$/
-    return pattern.test(email)
-  }
-
-  function pwValidCheck(value) {
-    return /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/.test(
-      value,
-    )
-  }
-
-  inputEmail.addEventListener('input', validateForm)
-  inputPassword.addEventListener('input', validateForm)
-
-  function handleLocation(url) {
-    window.location.href = url
-  }
+inputEmail.addEventListener('input', validateForm)
+inputPassword.addEventListener('input', validateForm)
