@@ -1,3 +1,7 @@
+import { emailValidCheck, pwValidCheck, confirmPwValidCheck, nicknameValidCheck } from '../util/validation.js';
+import { handleLocation } from '../util/handleLocation.js';
+import { getLocalStorage, saveLocalStorage } from '../util/session.js';
+
 const inputEmail = document.getElementById('email');
 const inputPassword = document.getElementById('password');
 const confirmPassword = document.getElementById('confirm-password');
@@ -8,21 +12,23 @@ let pwError = document.getElementById('passwordError');
 let cfPwError = document.getElementById('confirmPasswordError');
 let nicknameError = document.getElementById('nicknameError');
 
-// 파일 입력 요소와 이미지 및 버튼 요소 선택
+//NOTE: 파일 입력 요소와 이미지 및 버튼 요소 선택
 const fileInput = document.getElementById('fileInput');
 const profileImage = document.getElementById('profileImage');
-
 const uploadButton = document.getElementById('uploadButton');
 const profileImageContainer = document.getElementById('profileImageContainer');
 const backButton = document.querySelector('.back-button');
+let imageCheck = false
+
 
 function validateForm() {
     let emailCheck = false
     let pwCheck = false
     let cfPwCheck = false
     let nicknameCheck = false
+    
 
-    // 이메일 유효성 검사
+    //NOTE: 이메일 유효성 검사
     if (!inputEmail.value.trim() || !emailValidCheck(inputEmail.value.trim())) {
       emailError.innerText = '  *올바른 이메일 주소 형식을 입력해주세요.'
       emailError.style.display = 'block'
@@ -31,7 +37,7 @@ function validateForm() {
       emailError.style.display = 'none'
     }
 
-    // 비밀번호 유효성 검사
+    //NOTE: 비밀번호 유효성 검사
     if (!inputPassword.value.trim()) {
         pwError.style.display = 'block'
         pwError.innerText = '  *비밀번호를 입력해주세요.'
@@ -58,60 +64,60 @@ function validateForm() {
     // 닉네임 유효성 검사
     nicknameCheck = nicknameValidCheck(inputNickname.value.trim());
 
-
     if (emailCheck && pwCheck && cfPwCheck && nicknameCheck) {
         submit.style.backgroundColor = '#7f6aee'
         submit.style.cursor = 'pointer'
-        return true
+       
+        saveLocalStorage('email', inputEmail.value.trim());
+        saveLocalStorage('pw', inputPassword.value.trim());
+        saveLocalStorage('nickname', inputNickname.value.trim());
+
+        return true;
     }else{
         submit.style.backgroundColor = '#ACA0EB'
+        return false;
     }
   }
 
-  // TODO: 회원가입 api 연동 추가
-  if (submit) {
-    submit.addEventListener('click', (event) => {
-      event.preventDefault()
-      if (validateForm()) {
-        alert('TODO: 서버 구축 후 회원가입 api 호출 예정');
-        handleLocation('')
-      }
-    })
-  }
+// TODO: 회원가입 api 연동 추가
+submit.addEventListener('click', (event) => {
+    event.preventDefault();
 
-  function emailValidCheck(email) {
-    const pattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+$/
-    return pattern.test(email)
-  }
+    if (validateForm()) {
+      
+      const email = getLocalStorage('email');
+      const pw = getLocalStorage('pw');
+      const nickname = getLocalStorage('nickname');
+      const url = getLocalStorage('imageUrl');
 
-  function pwValidCheck(value) {
-    return /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/.test(
-      value,
-    )
-  }
-
-  function confirmPwValidCheck(value) {
-    return value === inputPassword.value.trim();
-  }
-
-  function nicknameValidCheck(value) {
-    if (!value) {
-        nicknameError.innerText = '  *닉네임을 입력해주세요.';
-        nicknameError.style.display = 'block';
-        return false;
-    } else if (/\s/.test(value)) {
-        nicknameError.innerText = '  *띄어쓰기를 없애주세요.';
-        nicknameError.style.display = 'block';
-        return false;
-    } else if (value.length > 10) { 
-        nicknameError.innerText = '  *닉네임은 최대 10자까지 작성 가능합니다.';
-        nicknameError.style.display = 'block';
-        return false;
-    } else {
-        nicknameError.style.display = 'none';
-        return true;
-    }
-  }
+      fetch(`http://localhost:3000/api/auth/signin`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: pw,
+          nickname : nickname,
+          profile : url
+        }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        const success = data.success; 
+        const message = data.message;
+        if(success){
+          alert('회원가입이 정상적으로 이루어졌습니다.')
+          handleLocation('/html/Posts.html');
+        }else alert(`회원가입 문제 발생: ${message}`);
+      })
+      .catch(error => console.error("Error:", error));
+    }else{
+      console.log('nah')
+      alert('뭐지')
+    }    
+  });
+  
   
   inputEmail.addEventListener('input', validateForm)
   inputPassword.addEventListener('input', validateForm)
@@ -119,30 +125,31 @@ function validateForm() {
   inputNickname.addEventListener('input', validateForm);
 
   uploadButton.addEventListener('click', () => {
-      fileInput.click();
+    fileInput.click();
   });
 
-  fileInput.addEventListener('change', (event) => {
-      const file = event.target.files[0];
+ fileInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
 
-      if (file) {
-          const reader = new FileReader();
-          reader.onload = (e) => {
-              profileImage.src = e.target.result;
-              profileImage.style.display = 'block';
-              uploadButton.style.display = 'none';
-          };
-          reader.readAsDataURL(file);
-      }
-  });
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const url = e.target.result;
+            profileImage.src = url;
+            profileImage.style.display = 'block';
+            uploadButton.style.display = 'none';
+            
+            imageCheck = true;
+            console.log(`File name: ${file.name}`); // 파일 이름만 출력
+            saveLocalStorage('imageUrl', file.name); // 로컬 스토리지에 파일 이름만 저장
+        };
+        reader.readAsDataURL(file); // 파일 읽기 시작
+    }
+});
 
-  backButton.addEventListener('click', ()=>{
-      handleLocation("/html/Log in.html");
-  })
 
-
-  function handleLocation(url) {
-      window.location.href = url
-  }
+backButton.addEventListener('click', ()=>{
+    handleLocation("/html/Log in.html");
+})
 
 
