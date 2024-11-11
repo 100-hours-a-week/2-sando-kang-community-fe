@@ -1,7 +1,7 @@
 # 커뮤니티 만들기
 카카오테크 클라우드 네이티브 in Jeju 2기 커뮤니티 과제
 
-## <div><img src="https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=header&text=산도-커뮤니티&fontSize=90" /></div>
+## <div><img src="https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=header&text=산도-커뮤니티FE&fontSize=80" /></div>
 
 - - - - - - - - - - - - - - - -
 
