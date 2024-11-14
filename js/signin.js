@@ -53,7 +53,7 @@ function validateForm() {
     if(!confirmPassword.value.trim()) {
         cfPwError.style.display = 'block'
         cfPwError.innerText = '  *비밀번호를 한번 더 입력해주세요.'
-    } else if(!confirmPwValidCheck(confirmPassword.value.trim())) {
+    } else if(!confirmPwValidCheck(inputPassword.value.trim(), confirmPassword.value.trim())) {
         cfPwError.style.display = 'block'
         cfPwError.innerText = '  *비밀번호가 다릅니다.';
     }else{
@@ -62,7 +62,7 @@ function validateForm() {
     }
 
     // 닉네임 유효성 검사
-    nicknameCheck = nicknameValidCheck(inputNickname.value.trim());
+    nicknameCheck = nicknameValidCheck(inputNickname.value.trim(), nicknameError);
 
     if (emailCheck && pwCheck && cfPwCheck && nicknameCheck) {
         submit.style.backgroundColor = '#7f6aee'
@@ -79,10 +79,11 @@ function validateForm() {
     }
   }
 
-// TODO: 회원가입 api 연동 추가
+//NOTE: 회원가입
 submit.addEventListener('click', (event) => {
     event.preventDefault();
 
+   
     if (validateForm()) {
       
       const email = getLocalStorage('email');
@@ -112,10 +113,7 @@ submit.addEventListener('click', (event) => {
         }else alert(`회원가입 문제 발생: ${message}`);
       })
       .catch(error => console.error("Error:", error));
-    }else{
-      console.log('nah')
-      alert('뭐지')
-    }    
+    }
   });
   
   
