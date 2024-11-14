@@ -21,7 +21,7 @@
             </div>
         </header>
         <h2>게시글 작성</h2>
-        <form action="#" method="post">
+        <form action="#" method="post" enctype="multipart/form-data">
             <label for="title">제목*</label>
             <input type="text" id="title" name="title" placeholder="제목을 입력하세요 (최대 26자)" required maxlength="26">
 
@@ -37,6 +37,6 @@
             <button class="submit-button" id="submit-button" type="submit">작성하기</button>
         </form>
     </div>
-    <script src="/js/make post.js"></script>
+    <script type="module" src="/js/make post.js"></script>
 </body>
 </html>

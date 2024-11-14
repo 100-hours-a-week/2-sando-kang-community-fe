@@ -66,11 +66,12 @@ submit.addEventListener('click', (event) => {
       })
       .then(response => response.json())
       .then(data => {
+        
         const success = data.success;
         if(success){
           alert('로그인이 정상적으로 이루어졌습니다.')
-          const userId = data.user_id; 
-          localStorage.setItem("userId", userId); 
+          const userId = data.data.user_id; 
+          saveLocalStorage("userId", userId); 
           handleLocation("/html/Posts.html");
         }else{
           alert(`로그인이 되지 않았습니다. : ${data.message}`);

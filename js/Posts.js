@@ -1,5 +1,5 @@
 import { handleLocation } from '../util/handleLocation.js';
-import { getLocalStorage, saveLocalStorage } from '../util/session.js';
+import { saveLocalStorage } from '../util/session.js';
 
 const modifyBtn = document.querySelector(".write-post");
 const postContainer = document.getElementById('posts');
@@ -22,8 +22,10 @@ function fetchPosts() {
     fetch(`http://localhost:3000/api/post?page=${page}`)
         .then(response => response.json())
         .then(data => {
-            if (data.success && data.data.posts) {
-                renderPosts(data.data.posts); 
+            // 서버 응답 구조에 맞게 데이터 접근 방식 수정
+            if (data.success && data.data.postData) {
+                console.log(`data : ${data.data.postData[0]}`);
+                renderPosts(data.data.postData); 
                 page++; 
             } else {
                 console.error('Failed to load posts');
@@ -38,12 +40,11 @@ function fetchPosts() {
         });
 }
 
-
 function renderPosts(posts) {
     posts.forEach(post => {
         const postDiv = document.createElement('div');
         postDiv.classList.add('post');
-        postDiv.dataset.postId = post.id; // 게시글 ID를 dataset에 저장
+        postDiv.dataset.postId = post.id;
 
         postDiv.innerHTML = `
           <div class="post-header">
@@ -57,24 +58,22 @@ function renderPosts(posts) {
           </div>
           <div class="author">
               <div class="avatar">
-                  <img src="${post.profileImg}" alt="">
+                  <img src="${post.profileImg || 'default-profile.png'}" alt="">
               </div>
-              <span>${post.author}</span>
+              <span>${post.author || 'Unknown Author'}</span>
           </div>
         `;
 
-        // NOTE: 게시글 클릭 시 수정화면으로
         postDiv.addEventListener('click', () => {
-            
             saveLocalStorage('postId', post.id);
             saveLocalStorage('title', post.title);
             saveLocalStorage('content', post.content);
-            saveLocalStorage('author', post.author);
+            saveLocalStorage('author', post.author || 'Unknown Author');
             saveLocalStorage('likes', formatNumber(post.likes));
-            saveLocalStorage('comments',formatNumber(post.comments));
-            saveLocalStorage('views', formatNumber(post.views))
+            saveLocalStorage('comments', formatNumber(post.comments));
+            saveLocalStorage('views', formatNumber(post.views));
             saveLocalStorage('date', post.date);
-            saveLocalStorage('profile', post.profileImg);
+            saveLocalStorage('profile', post.profileImg || 'default-profile.png');
 
             handleLocation("/html/post.html"); 
         });
@@ -82,6 +81,7 @@ function renderPosts(posts) {
         postContainer.appendChild(postDiv);
     });
 }
+
 
 modifyBtn.addEventListener("click", () => {
     handleLocation("/html/make post.html");

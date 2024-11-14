@@ -1,3 +1,4 @@
+import { handleLocation } from '../util/handleLocation.js';
 import { getLocalStorage, saveLocalStorage } from '../util/session.js';
 
 const backBtn = document.querySelector(".page-back");
@@ -31,31 +32,30 @@ function validateForm() {
     }
 }
 
+//NOTE: 게시물 작성
 function makePost(event) {
     event.preventDefault();
 
-    const userId = 1;
+    const userId = getLocalStorage('userId');
     const title = getLocalStorage('title');
     const content = getLocalStorage('content');
-    const image = getLocalStorage('imageUrl');
+    const file = fileInput.files[0];
+
+    const formData = new FormData();
+    formData.append("user_id", userId);
+    formData.append("title", title);
+    formData.append("content", content);
+    formData.append("image", file);
 
     fetch('http://localhost:3000/api/post', {
         method: 'POST',
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            user_id : userId,
-            title: title,
-            content: content,
-            image : image
-          }),
+        body: formData,
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
             alert('게시글 작성이 완료되었습니다!');
-            window.location.href = '/html/Posts.html';
+            handleLocation('/html/Posts.html')
         } else {
             console.error('게시글 작성 실패:', data.message);
             alert('게시글 작성에 실패했습니다.');
@@ -65,8 +65,8 @@ function makePost(event) {
         console.error('Error:', error);
         alert('서버 오류가 발생했습니다.');
     });
-    
 }
+
 
 title.addEventListener('input', validateForm)
 content.addEventListener('input', validateForm);
@@ -78,14 +78,14 @@ backBtn.addEventListener('click', () => {
 
 fileInput.addEventListener('change', (event) => {
     const file = event.target.files[0];
-    
+
     if (file) {
-        const updatedImg = URL.createObjectURL(file);
-        const fileName = updatedImg.split('/').pop();
-        saveLocalStorage('imageUrl', fileName);
-        document.querySelector('.file-name').innerText = fileName;
-    }else {
+            document.querySelector('.file-name').innerText = file.name;
+    } else {
         console.log("파일이 선택되지 않았습니다.");
-      }
+    }
 });
+
+
+
 

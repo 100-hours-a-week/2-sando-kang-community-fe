@@ -29,64 +29,63 @@ function modifyData(event) {
     event.preventDefault();
 
     const userId = getLocalStorage('userId');
-    const postId = getLocalStorage('postId')
+    const postId = getLocalStorage('postId');
     const updatedTitle = document.getElementById('title').value;
     const updatedContent = document.getElementById('content').value;
     const fileInput = document.getElementById('image');
+    const date = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
-    
-    // NOTE: 게시글 이미지 첨부
-    if (fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        const reader = new FileReader();
+    console.log(`userId:  ${userId}`);
+    console.log(`postId:  ${postId}`);
+    console.log(`updatedTitle:  ${updatedTitle}`);
+    console.log(`updatedContent:  ${updatedContent}`);
+    console.log(`fileInput:  ${fileInput.files[0]}`);
+    console.log(`date:  ${date}`);
 
-        reader.onload = function(event) {
-            const updatedImg = event.target.result; 
-            console.log("img: " + updatedImg)
-            const formData = new FormData();
-            formData.append('user_id', userId);
-            formData.append('post_id', postId);
-            formData.append('title', updatedTitle);
-            formData.append('content', updatedContent);
+    const arr = [userId,postId,updatedTitle,updatedContent,fileInput.files[0],date];
+    const formData = new FormData();
+    formData.append('user_id', userId);
+    formData.append('post_id', postId);
+    formData.append('title', updatedTitle);
+    formData.append('content', updatedContent);
+    formData.append('date', date);
+    formData.append('image', fileInput.files[0]);
 
-            if(updatedImg)formData.append('image', updatedImg);
-            
-            fetch(`http://localhost:3000/api/post`, {
-                method: "PUT",
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                if(data.success){
-                    alert('게시글 수정이 완료되었습니다.');
-                    handleLocation("/html/post.html");
-                }else{
-                    alert(`게시글 수정 중 문제가 발생하였습니다. ${data.message}`);
-                }
-            })
-            .catch(error => console.error("Error:", error));
-        };
+    fetch(`http://localhost:3000/api/post`, {
+        method: "PUT",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        if(data.success){
+            alert('게시글 수정이 완료되었습니다.');
+            saveLocalStorage('title', updatedTitle);
+            saveLocalStorage('content', updatedContent);
+            saveLocalStorage('updatePostDate' , date);
 
-        reader.readAsDataURL(file); 
-    } else {
-        alert("이미지를 선택해주세요.");
-    }
+            handleLocation("/html/post.html");
+        } else {
+            alert(`게시글 수정 중 문제가 발생하였습니다. ${data.message}`);
+        }
+    })
+    .catch(error => console.error("Error:", error));
 }
+
+
 
 modifyBtn.addEventListener("click", modifyData);
 backBtn.addEventListener("click", clickHandler);
 
 fileInput.addEventListener('change', (event) => {
     const file = event.target.files[0];
-    
+
     if (file) {
-        const updatedImg = URL.createObjectURL(file);
-        const fileName = updatedImg.split('/').pop();
-        document.querySelector('.file-name').innerText = fileName;
-    }else {
+            document.querySelector('.file-name').innerText = file.name;
+    } else {
         console.log("파일이 선택되지 않았습니다.");
-      }
+    }
 });
+
 
 

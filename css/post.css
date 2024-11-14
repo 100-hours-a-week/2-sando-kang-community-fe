@@ -103,6 +103,10 @@ article h2 {
     border-radius: 10px;
 }
 
+#likesCount:hover{
+    cursor: pointer;
+}
+
 .comments-section {
     width: 544px;
     margin-top: 20px;
