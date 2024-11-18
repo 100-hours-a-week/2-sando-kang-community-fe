@@ -22,9 +22,7 @@ function fetchPosts() {
     fetch(`http://localhost:3000/api/post?page=${page}`)
         .then(response => response.json())
         .then(data => {
-            // 서버 응답 구조에 맞게 데이터 접근 방식 수정
             if (data.success && data.data.postData) {
-                console.log(`data : ${data.data.postData[0]}`);
                 renderPosts(data.data.postData); 
                 page++; 
             } else {
@@ -42,6 +40,8 @@ function fetchPosts() {
 
 function renderPosts(posts) {
     posts.forEach(post => {
+
+        console.log(post);
         const postDiv = document.createElement('div');
         postDiv.classList.add('post');
         postDiv.dataset.postId = post.id;
@@ -58,7 +58,7 @@ function renderPosts(posts) {
           </div>
           <div class="author">
               <div class="avatar">
-                  <img src="${post.profileImg || 'default-profile.png'}" alt="">
+                  <img src="${post.profile}" alt="profile">
               </div>
               <span>${post.author || 'Unknown Author'}</span>
           </div>
@@ -73,7 +73,7 @@ function renderPosts(posts) {
             saveLocalStorage('comments', formatNumber(post.comments));
             saveLocalStorage('views', formatNumber(post.views));
             saveLocalStorage('date', post.date);
-            saveLocalStorage('profile', post.profileImg || 'default-profile.png');
+            saveLocalStorage('profile', post.profile || 'default-profile.png');
 
             handleLocation("/html/post.html"); 
         });
