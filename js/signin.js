@@ -12,7 +12,7 @@ let pwError = document.getElementById('passwordError');
 let cfPwError = document.getElementById('confirmPasswordError');
 let nicknameError = document.getElementById('nicknameError');
 
-//NOTE: 파일 입력 요소와 이미지 및 버튼 요소 선택
+
 const fileInput = document.getElementById('fileInput');
 const profileImage = document.getElementById('profileImage');
 const uploadButton = document.getElementById('uploadButton');
@@ -26,9 +26,7 @@ function validateForm() {
     let pwCheck = false
     let cfPwCheck = false
     let nicknameCheck = false
-    
 
-    //NOTE: 이메일 유효성 검사
     if (!inputEmail.value.trim() || !emailValidCheck(inputEmail.value.trim())) {
       emailError.innerText = '  *올바른 이메일 주소 형식을 입력해주세요.'
       emailError.style.display = 'block'
@@ -37,7 +35,6 @@ function validateForm() {
       emailError.style.display = 'none'
     }
 
-    //NOTE: 비밀번호 유효성 검사
     if (!inputPassword.value.trim()) {
         pwError.style.display = 'block'
         pwError.innerText = '  *비밀번호를 입력해주세요.'
@@ -49,7 +46,6 @@ function validateForm() {
         pwError.style.display = 'none'
     }
 
-    // 비밀번호 확인 유효성 검사
     if(!confirmPassword.value.trim()) {
         cfPwError.style.display = 'block'
         cfPwError.innerText = '  *비밀번호를 한번 더 입력해주세요.'
@@ -61,7 +57,6 @@ function validateForm() {
         cfPwError.style.display = 'none'
     }
 
-    // 닉네임 유효성 검사
     nicknameCheck = nicknameValidCheck(inputNickname.value.trim(), nicknameError);
 
     if (emailCheck && pwCheck && cfPwCheck && nicknameCheck) {
@@ -79,42 +74,42 @@ function validateForm() {
     }
   }
 
-//NOTE: 회원가입
+// NOTE: 회원가입
 submit.addEventListener('click', (event) => {
-    event.preventDefault();
+  event.preventDefault();
 
-   
-    if (validateForm()) {
-      
+  if (validateForm()) {
       const email = getLocalStorage('email');
       const pw = getLocalStorage('pw');
       const nickname = getLocalStorage('nickname');
-      const url = getLocalStorage('imageUrl');
+      const url = fileInput.files[0];
+
+      const formData = new FormData();
+      
+      formData.append("email", email);
+      formData.append("pw", pw);
+      formData.append("nickname", nickname);
+      formData.append("image", url);
 
       fetch(`http://localhost:3000/api/auth/signin`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: pw,
-          nickname : nickname,
-          profile : url
-        }),
+          method: "POST",
+          body: formData,
       })
       .then(response => response.json())
       .then(data => {
-        const success = data.success; 
-        const message = data.message;
-        if(success){
-          alert('회원가입이 정상적으로 이루어졌습니다.')
-          handleLocation('/html/Posts.html');
-        }else alert(`회원가입 문제 발생: ${message}`);
+          const success = data.success; 
+          const message = data.message;
+          if(success){
+              alert('회원가입이 정상적으로 이루어졌습니다.');
+              handleLocation('/html/Posts.html');
+          } else {
+              alert(`회원가입 문제 발생: ${message}`);
+          }
       })
       .catch(error => console.error("Error:", error));
-    }
-  });
+  }
+});
+
   
   
   inputEmail.addEventListener('input', validateForm)
@@ -138,10 +133,10 @@ submit.addEventListener('click', (event) => {
             uploadButton.style.display = 'none';
             
             imageCheck = true;
-            console.log(`File name: ${file.name}`); // 파일 이름만 출력
-            saveLocalStorage('imageUrl', file.name); // 로컬 스토리지에 파일 이름만 저장
+            console.log(`File name: ${file.name}`); 
+            saveLocalStorage('imageUrl', file.name); 
         };
-        reader.readAsDataURL(file); // 파일 읽기 시작
+        reader.readAsDataURL(file);
     }
 });
 
