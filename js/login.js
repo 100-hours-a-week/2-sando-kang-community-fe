@@ -66,7 +66,7 @@ submit.addEventListener('click', (event) => {
       })
       .then(response => response.json())
       .then(data => {
-        
+        console.log(data);
         const success = data.success;
         if(success){
           alert('로그인이 정상적으로 이루어졌습니다.')
@@ -74,7 +74,7 @@ submit.addEventListener('click', (event) => {
           saveLocalStorage("userId", userId); 
           handleLocation("/html/Posts.html");
         }else{
-          alert(`로그인이 되지 않았습니다. : ${data.message}`);
+          alert(`로그인이 되지 않았습니다. : ${data.message.code}`);
         }
       })
       .catch(error => console.error("Error:", error));
