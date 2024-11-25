@@ -57,7 +57,7 @@ function validateForm() {
         const password = inputPassword.value.trim();
           
         if (userId) {
-          fetch('http://localhost:3000/api/auth/password', {
+          fetch('/api/auth/password', {
               method: 'PATCH',
               headers: {
                   'Content-Type': 'application/json',

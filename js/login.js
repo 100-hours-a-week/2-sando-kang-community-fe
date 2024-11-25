@@ -54,7 +54,7 @@ submit.addEventListener('click', (event) => {
       const email = getLocalStorage('email');
       const pw = getLocalStorage('pw');
      
-      fetch(`http://localhost:3000/api/auth/login`, {
+      fetch(`/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

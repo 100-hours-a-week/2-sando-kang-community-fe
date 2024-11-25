@@ -17,8 +17,6 @@ const logoutButton = document.querySelector('.dropdown-menu a:last-child');
 const fileInput = document.getElementById('fileInput');
 const profileImage = document.getElementById('profileImage');
 const uploadButton = document.getElementById('uploadButton');
-const profileImageContainer = document.getElementById('profileImageContainer');
-const backButton = document.querySelector('.back-button');
 
 window.onload = function() {
     const email = getLocalStorage('email'); 
@@ -74,7 +72,7 @@ function logout(event) {
     const userId = getLocalStorage('userId'); 
 
     if (userId) {
-        fetch('http://localhost:3000/api/auth/logout', {
+        fetch('/api/auth/logout', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -195,7 +193,7 @@ fileInput.addEventListener('change', (event) => {
             profileImage.style.display = 'block'; 
             uploadButton.style.visibility = 'hidden'; 
             
-            localStorage.setItem('profile', e.target.result);
+            saveLocalStorage('profile', e.target.result);
         };
         reader.readAsDataURL(file); 
     }

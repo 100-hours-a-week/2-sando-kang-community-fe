@@ -47,7 +47,7 @@ function makePost(event) {
     formData.append("content", content);
     formData.append("image", file);
 
-    fetch('http://localhost:3000/api/post', {
+    fetch('/api/post', {
         method: 'POST',
         body: formData,
     })

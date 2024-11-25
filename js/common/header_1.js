@@ -15,3 +15,10 @@ function createHeader() {
 
 // 호출
 createHeader();
+
+
+const avatar = document.querySelector('.avatar');
+
+avatar.addEventListener('click' , () =>{
+    handleLocation('/html/edit profile.html');
+})
