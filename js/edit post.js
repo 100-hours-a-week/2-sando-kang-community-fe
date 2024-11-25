@@ -51,7 +51,7 @@ function modifyData(event) {
     formData.append('date', date);
     formData.append('image', fileInput.files[0]);
 
-    fetch(`http://localhost:3000/api/post`, {
+    fetch(`/api/post`, {
         method: "PUT",
         body: formData
     })

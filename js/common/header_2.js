@@ -1,3 +1,5 @@
+import {handleLocation} from '../../util/handleLocation';
+
 function createHeader() {
     const header = document.createElement('header');
     header.innerHTML = `
@@ -23,6 +25,8 @@ back.addEventListener('click' , () => {
     history.go(-1);
 })
 
-function handleLocation(value) {
-    return window.location.href = value;
-}
+const avatar = document.querySelector('.avatar');
+
+avatar.addEventListener('click' , () =>{
+    handleLocation('/html/edit profile.html');
+})
