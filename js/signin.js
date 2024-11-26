@@ -92,7 +92,7 @@ submit.addEventListener('click', (event) => {
       formData.append("nickname", nickname);
       formData.append("profile", url);
 
-      fetch(`/api/auth/signin`, {
+      fetch('/api/auth/signin', {
           method: "POST",
           body: formData,
       })
