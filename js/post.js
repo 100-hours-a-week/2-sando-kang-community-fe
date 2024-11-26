@@ -32,10 +32,8 @@ window.addEventListener('DOMContentLoaded', function () {
 async function applyDataToPage() {
     try {
         const postId = getLocalStorage("postId");
-        console.log(`http://localhost:3000/api/post/${postId} 호출`)
         
-        
-        const response = await fetch(`http://localhost:3000/api/post/1`);
+        const response = await fetch(`/api/post/${postId}`);
         const responseData = await response.json();
         console.log('Fetched data:', responseData);
 
@@ -185,7 +183,7 @@ async function modifyComment(event) {
 
         try {
         
-            const response =  await fetch(`http://localhost:3000/api/comment`, {
+            const response =  await fetch(`/api/comment`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -244,7 +242,7 @@ async function deletePost(event) {
     try {
         const postId = getLocalStorage('postId');
         console.log(`postId  : ${postId}`);
-        const response =  await fetch(`http://localhost:3000/api/post`, {
+        const response =  await fetch(`/api/post`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -276,7 +274,7 @@ async function updatePostStats() {
     const postId = getLocalStorage("postId");
     try {
         
-        const response =  await fetch(`http://localhost:3000/api/post`, {
+        const response =  await fetch('/api/post', {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -335,7 +333,7 @@ commentDeleteOk.addEventListener("click", () => {
     const postId = getLocalStorage("postId");
 
     if (selectedCommentId) {
-        fetch(`http://localhost:3000/api/comment`, {
+        fetch('/api/comment', {
             method: 'DELETE',
             headers: {
                 "Content-Type": "application/json",
