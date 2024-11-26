@@ -7,9 +7,14 @@ h2 {
     margin-bottom: 20px;
 }
 
+.edit-form-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 form {
-    width: 60%;
-    margin-left: 20%;
+    width: 30%;
     display: flex;
     flex-direction: column;
 }
