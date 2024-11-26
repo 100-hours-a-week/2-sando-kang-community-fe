@@ -9,7 +9,7 @@ body {
 }
 
 .container {
-    width: 60%;
+    width: 100%;
     background-color: #f4f5f7;
     padding: 20px;
     border-radius: 8px;
@@ -17,6 +17,7 @@ body {
 }
 
 header {
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -24,10 +25,10 @@ header {
     border-bottom: 1px solid #000000;
 }
 
-/* .title{
-    width: 90%;
+.title{
+    width: 35%;
 
-} */
+}
 
 h1 {
     text-align: center;
@@ -77,12 +78,20 @@ h2 {
     color: #333;
     margin-bottom: 20px;
 }
+.make-post-section{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 form {
-    width: 60%;
-    margin-left: 20%;
+    width: 100%;
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
+
 }
 
 label {
@@ -90,10 +99,12 @@ label {
     font-weight: 700;
     margin-bottom: 5px;
     color: #555;
+    padding: 0 39% 0 0;
 }
 
 input[type="text"],
 textarea {
+    width: 40%;
     padding: 10px;
     font-size: 14px;
     border: 1px solid #ccc;
@@ -110,10 +121,11 @@ textarea {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    padding: 0 24% 0 0;
 }
 
 .file-input input[type="file"] {
-    width:10% ;
+    width:21% ;
 }
 
 .file-name {
@@ -123,6 +135,7 @@ textarea {
 }
 
 .submit-button {
+    width: 20%;
     background-color: #ACA0EB;
     color: #fff;
     font-size: 16px;

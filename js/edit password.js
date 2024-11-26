@@ -2,6 +2,7 @@ import { pwValidCheck, confirmPwValidCheck } from '../util/validation.js';
 import { handleLocation } from '../util/handleLocation.js';
 import { getLocalStorage, saveLocalStorage } from '../util/session.js';
 
+const profileImg = document.getElementById('profileImg');
 const inputPassword = document.getElementById('password');
 const confirmPassword = document.getElementById('confirm-password');
 let pwError = document.getElementById('passwordError');
@@ -87,5 +88,11 @@ function validateForm() {
     })
   }
 
+
+  profileImg.addEventListener('click', () => {
+    dropdownMenu.style.maxHeight = 100;
+    dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+  });
+  
   inputPassword.addEventListener('input', validateForm)
   confirmPassword.addEventListener('input', validateForm);
