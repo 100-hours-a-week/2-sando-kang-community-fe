@@ -4,7 +4,11 @@ import { getLocalStorage, saveLocalStorage } from '../util/session.js';
 const backBtn = document.querySelector(".back-button");
 const modifyBtn = document.querySelector('.submit-button');
 const fileInput = document.getElementById('image');
+const avatar = document.querySelector('.profile-header');
 
+avatar.addEventListener('click' , () =>{
+    handleLocation('/html/edit profile.html');
+})
 
 window.addEventListener('DOMContentLoaded', function () {
     const titleInput = document.getElementById('title');
