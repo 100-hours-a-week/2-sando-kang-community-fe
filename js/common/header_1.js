@@ -6,7 +6,7 @@ function createHeader() {
             <div class="title">
                 <h4>아무 말 대잔치</h4>
             </div>
-            <div class="avatar">
+            <div class="profile-header">
                 <img src="/assets/images/logo/board-list-icon.png" alt="board">
             </div>
         </div>`;
@@ -15,10 +15,3 @@ function createHeader() {
 
 // 호출
 createHeader();
-
-
-const avatar = document.querySelector('.avatar');
-
-avatar.addEventListener('click' , () =>{
-    handleLocation('/html/edit profile.html');
-})

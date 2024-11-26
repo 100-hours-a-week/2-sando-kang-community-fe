@@ -21,21 +21,24 @@
             </div>
         </header>
         <h2>게시글 작성</h2>
-        <form action="#" method="post" enctype="multipart/form-data">
-            <label for="title">제목*</label>
-            <input type="text" id="title" name="title" placeholder="제목을 입력하세요 (최대 26자)" required maxlength="26">
-
-            <label for="content">내용*</label>
-            <textarea id="content" name="content" placeholder="내용을 입력하세요" required></textarea>
-
-            <label for="image">이미지</label>
-            <div class="file-input">
-                <input type="file" id="image" name="image">
-                <span class="file-name">기존 파일명</span>
-            </div>
-
-            <button class="submit-button" id="submit-button" type="submit">작성하기</button>
-        </form>
+        <div class="make-post-section">
+            <form action="#" method="post" enctype="multipart/form-data">
+                <label for="title">제목*</label>
+                <input type="text" id="title" name="title" placeholder="제목을 입력하세요 (최대 26자)" required maxlength="26">
+    
+                <label for="content">내용*</label>
+                <textarea id="content" name="content" placeholder="내용을 입력하세요" required></textarea>
+    
+                <label for="image">이미지</label>
+                <div class="file-input">
+                    <input type="file" id="image" name="image">
+                    <span class="file-name">기존 파일명</span>
+                </div>
+    
+                <button class="submit-button" id="submit-button" type="submit">작성하기</button>
+            </form>
+        </div>
+        
     </div>
     <script type="module" src="/js/make post.js"></script>
 </body>

@@ -4,6 +4,12 @@ import { saveLocalStorage } from '../util/session.js';
 const modifyBtn = document.querySelector(".write-post");
 const postContainer = document.getElementById('posts');
 const loading = document.getElementById('loading');
+const avatar = document.querySelector('.profile-header');
+
+avatar.addEventListener('click' , () =>{
+    handleLocation('/html/edit profile.html');
+})
+
 
 let page = 1;
 let isLoading = false; 
@@ -19,7 +25,7 @@ function fetchPosts() {
     isLoading = true;
     loading.style.display = 'block'; 
 
-    fetch(`/api/post?page=${page}`)
+    fetch(`http://localhost:3000/api/post?page=${page}`)
         .then(response => response.json())
         .then(data => {
             if (data.success && data.data.postData) {

@@ -18,7 +18,6 @@ header {
 }
 
 .title {
-    margin-left: 10%;
     width: 100%;
     text-align: center;
     font-size: 32px;
@@ -26,7 +25,7 @@ header {
     text-align: center;
 }
 
-.avatar {
+.profile-header {
     width: 40px;
     height: 30px;
     background-color: #ccc;
@@ -34,11 +33,11 @@ header {
     margin-right: 10px;
 }
 
-.avatar img{
+.profile-header img{
     width: 100%;
     border-radius: 100%;
 }
 
-.avatar img:hover{
+.profile-header img:hover{
     cursor: pointer;
 }
