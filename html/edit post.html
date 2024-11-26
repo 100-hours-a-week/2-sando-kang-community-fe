@@ -23,23 +23,26 @@
             </div>
         </div>
         <h2>게시글 수정</h2>
-        <form action="#" method="post">
-            <label for="title">제목*</label>
-            <input type="text" id="title" name="title" placeholder="제목을 입력하세요" required>
-
-            <label for="content">내용*</label>
-            <textarea id="content" name="content" placeholder="내용을 입력하세요" required></textarea>
-
-            <label for="image">이미지</label>
-            <div class="file-input">
-                <div class="file">
-                    <input type="file" id="image" name="image">
+        <div class="edit-form-section">
+            <form action="#" method="post">
+                <label for="title">제목*</label>
+                <input type="text" id="title" name="title" placeholder="제목을 입력하세요" required>
+    
+                <label for="content">내용*</label>
+                <textarea id="content" name="content" placeholder="내용을 입력하세요" required></textarea>
+    
+                <label for="image">이미지</label>
+                <div class="file-input">
+                    <div class="file">
+                        <input type="file" id="image" name="image">
+                    </div>
+                    <span class="file-name">/assets/images/post/ 하위 이미지 선택해주세요</span>
                 </div>
-                <span class="file-name">/assets/images/post/ 하위 이미지 선택해주세요</span>
-            </div>
+    
+                <button class="submit-button" type="submit">수정하기</button>
+            </form>
+        </div>
 
-            <button class="submit-button" type="submit">수정하기</button>
-        </form>
     </div>
     <script type="module" src="/js/edit post.js"></script>
 </body>
