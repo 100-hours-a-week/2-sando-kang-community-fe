@@ -106,7 +106,7 @@ updateButton.addEventListener('click', async () => {
     if (validateNickname(nicknameValue)) { 
         try {
             const userId = getLocalStorage('userId');
-            const response = await fetch('http://localhost:3000/api/auth/nickname', {
+            const response = await fetch('/api/auth/nickname', {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -148,7 +148,7 @@ confirmDelete.addEventListener('click', () => {
     const userId = getLocalStorage('userId'); 
 
     if (userId) {
-        fetch('http://localhost:3000/api/auth/withdraw', {
+        fetch('/api/auth/withdraw', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
