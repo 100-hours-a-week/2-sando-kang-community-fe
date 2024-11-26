@@ -18,6 +18,16 @@ const authorName = document.querySelector('.author-name');
 const modifyBtn = document.querySelector(".edit");
 const commentContainer = document.querySelector('.comments-section');
 const submitButton = document.querySelector('.comment-submit');
+const back = document.querySelector('.back-button');
+const avatar = document.querySelector('.profile-header');
+
+avatar.addEventListener('click' , () =>{
+    handleLocation('/html/edit profile.html');
+})
+
+back.addEventListener('click' , () => {
+    history.go(-1);
+})
 
 let selectedCommentId = null; 
 let commentStatus = 0; 
@@ -43,6 +53,8 @@ async function applyDataToPage() {
         }
 
         const postData = responseData.data.postData;
+        saveLocalStorage('profile', postData.profile );
+        
         if (!postData) {
             console.error('게시글 데이터가 없습니다.');
             return;
@@ -76,6 +88,17 @@ async function applyDataToPage() {
             });
         });
 
+        const profileElement = document.querySelector('.avatar img');
+        const profileHeaderElement = document.querySelector('.profile-header img');
+        if (postData.profile ) {
+            console.log("Received Image Data:", postData.profile);
+            profileElement.src = postData.profile; 
+            profileHeaderElement.src = postData.profile; 
+        } else {
+            console.error("Invalid image data or format.");
+            profileElement.src = '/assets/images/logo/board-list-icon.png'; 
+            profileHeaderElement.src = '/assets/images/logo/board-list-icon.png'; 
+        }
 
         const imageElement = document.querySelector('.post-img img');
         if (postData.image ) {
@@ -220,8 +243,8 @@ async function modifyComment(event) {
 function modifyHandler(){
     const title = document.querySelector('h2').innerText;
     const content = document.querySelector('.post-article p').innerText;
-    localStorage.setItem('editTitle', title);
-    localStorage.setItem('editContent', content);
+    saveLocalStorage('editTitle', title);
+    saveLocalStorage('editContent', content);
     handleLocation("/html/edit post.html");
 }
 

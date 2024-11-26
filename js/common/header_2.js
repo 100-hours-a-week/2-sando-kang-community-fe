@@ -8,8 +8,8 @@ function createHeader() {
             <div class="title">
                 <h4>아무 말 대잔치</h4>
             </div>
-            <div class="avatar">
-                <img src="/assets/images/logo/board-list-icon.png" alt="board">
+            <div class="profile-header">
+                <img src="" alt="board">
             </div>
         </div>`;
     document.body.prepend(header);
@@ -25,7 +25,7 @@ back.addEventListener('click' , () => {
     history.go(-1);
 })
 
-const avatar = document.querySelector('.avatar');
+const avatar = document.querySelector('.profile-header');
 
 avatar.addEventListener('click' , () =>{
     handleLocation('/html/edit profile.html');
