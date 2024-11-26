@@ -25,7 +25,7 @@ function fetchPosts() {
     isLoading = true;
     loading.style.display = 'block'; 
 
-    fetch(`http://localhost:3000/api/post?page=${page}`)
+    fetch(`/api/post?page=${page}`)
         .then(response => response.json())
         .then(data => {
             if (data.success && data.data.postData) {

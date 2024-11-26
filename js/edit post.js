@@ -5,6 +5,7 @@ const backBtn = document.querySelector(".back-button");
 const modifyBtn = document.querySelector('.submit-button');
 const fileInput = document.getElementById('image');
 const avatar = document.querySelector('.profile-header');
+const headerProflie = document.querySelector('profile-header img')
 
 avatar.addEventListener('click' , () =>{
     handleLocation('/html/edit profile.html');
@@ -16,12 +17,17 @@ window.addEventListener('DOMContentLoaded', function () {
 
     const editTitle = getLocalStorage('title');
     const editContent = getLocalStorage('content');
+    const editProfile = getLocalStorage('profile');
+
 
     if (editTitle) {
         titleInput.value = editTitle;
     }
     if (editContent) {
         contentTextarea.value = editContent;
+    }
+    if (editProfile) {
+        headerProflie.src = editProfile;
     }
 });
 
