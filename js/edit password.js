@@ -29,9 +29,10 @@ function validateForm() {
 
     //NOTE: 비밀번호 확인 유효성 검사
     if(!confirmPassword.value.trim()) {
+        console.log(confirmPassword.value.trim());
         cfPwError.style.display = 'block'
         cfPwError.innerText = '  *비밀번호를 한번 더 입력해주세요.'
-    } else if(!confirmPwValidCheck(confirmPassword.value.trim())) {
+    } else if(!confirmPwValidCheck(inputPassword.value.trim(), confirmPassword.value.trim())) {
         cfPwError.style.display = 'block'
         cfPwError.innerText = '  *비밀번호가 다릅니다.';
     }else{
