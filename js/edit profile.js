@@ -103,40 +103,61 @@ function logout(event) {
 
 updateButton.addEventListener('click', async () => {
     const nicknameValue = inputNickname.value.trim(); 
-    if (validateNickname(nicknameValue)) { 
-        try {
-            const userId = getLocalStorage('userId');
-            const response = await fetch('/api/auth/nickname', {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    user_id: userId, 
-                    nickname: nicknameValue 
-                }),
-            });
+    const file = fileInput.files[0]; 
+
+    console.log(nicknameValue);
+    if (!validateNickname(nicknameValue)) {
+        nicknameError.innerText = '닉네임이 유효하지 않습니다.';
+        nicknameError.style.display = 'block';
+        return;
+    }
+    nicknameError.style.display = 'none';
+
+    try {
+        const formData = new FormData();
+        const userId = getLocalStorage('userId'); 
+
+        formData.append('user_id', userId);
+        formData.append('nickname', nicknameValue);
+        if (file) {
+            formData.append('profile', file);
+        }
+
+        const response = await fetch('/api/auth/nickname', {
+            method: 'PATCH',
+            body: formData,
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+         
+            toastMessage.style.display = 'block';
+            setTimeout(() => {
+                toastMessage.style.display = 'none';
+            }, 2000);
+
+            const { user_id, nickname, profile } = data.data; 
+            console.log(`User ID: ${user_id}, Nickname: ${nickname}, Profile: ${profile}`);
             
-            if (response.ok) {
-                toastMessage.style.display = 'block'; 
-                setTimeout(() => {
-                    toastMessage.style.display = 'none';
-                }, 2000);
-                
-                localStorage.setItem('nickname', nicknameValue);
-            } else {
-                
-                const errorData = await response.json();
-                nicknameError.innerText = errorData.message || '수정 실패';
-                nicknameError.style.display = 'block';
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            nicknameError.innerText = '서버와의 통신 오류';
+            saveLocalStorage('profile', profile);
+            saveLocalStorage('nickname', nickname); 
+            alert('회원정보 수정이 완료되었습니다.');
+            handleLocation('/html/Posts.html'); 
+
+        } else {
+            alert(`회원정보 수정 문제 발생: ${data.message || '수정 실패'}`);
+            nicknameError.innerText = data.message || '수정 실패';
             nicknameError.style.display = 'block';
         }
+    } catch (error) {
+        // 네트워크 에러 처리
+        console.error('Error:', error);
+        nicknameError.innerText = '서버와의 통신 오류';
+        nicknameError.style.display = 'block';
     }
 });
+
 
 
 deleteButton.addEventListener('click', () => {

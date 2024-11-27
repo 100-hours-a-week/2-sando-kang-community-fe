@@ -1,6 +1,8 @@
-import {handleLocation} from '../../util/handleLocation';
-
 function createHeader() {
+    
+    const profile = localStorage.getItem('profile');
+    console.log(profile);
+
     const header = document.createElement('header');
     header.innerHTML = `
         <div class="head">
@@ -9,7 +11,7 @@ function createHeader() {
                 <h4>아무 말 대잔치</h4>
             </div>
             <div class="profile-header">
-                <img src="" alt="board">
+                <img src="${profile}" alt="board">
             </div>
         </div>`;
     document.body.prepend(header);
@@ -28,5 +30,5 @@ back.addEventListener('click' , () => {
 const avatar = document.querySelector('.profile-header');
 
 avatar.addEventListener('click' , () =>{
-    handleLocation('/html/edit profile.html');
+    window.location.href('/html/edit profile.html');
 })
