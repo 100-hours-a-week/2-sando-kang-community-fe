@@ -16,7 +16,9 @@ const logoutButton = document.querySelector('.dropdown-menu a:last-child');
 
 const fileInput = document.getElementById('fileInput');
 const profileImage = document.getElementById('profileImage');
+const headerProfile = document.getElementById('profileImg');
 const uploadButton = document.getElementById('uploadButton');
+
 
 window.onload = function() {
     const email = getLocalStorage('email'); 
@@ -33,7 +35,7 @@ window.onload = function() {
     }
 
     if (profileImageSrc) {
-        profileImage.src = profileImageSrc; 
+         profileImage.src = profileImageSrc; 
         profileImage.style.display = 'none'; 
     }
 };
@@ -123,7 +125,7 @@ updateButton.addEventListener('click', async () => {
             formData.append('profile', file);
         }
 
-        const response = await fetch('/api/auth/nickname', {
+        const response = await fetch('http://localhost:3000/api/auth/nickname', {
             method: 'PATCH',
             body: formData,
         });
