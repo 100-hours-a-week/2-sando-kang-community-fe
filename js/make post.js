@@ -7,6 +7,18 @@ const content = document.getElementById('content');
 const submit = document.getElementById('submit-button');
 const fileInput = document.getElementById('image');
 
+const profile = document.querySelector('.user-icon');
+
+
+window.addEventListener('DOMContentLoaded', function () {
+
+        const editProfile = getLocalStorage('profile');
+        if(editProfile){
+            profile.src = editProfile;
+
+        }
+})
+
 
 function validateForm() {
     let titleCheck = false

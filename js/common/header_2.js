@@ -24,7 +24,7 @@ createHeader();
 const back = document.querySelector('.back-button');
 
 back.addEventListener('click' , () => {
-    history.go(-1);
+    window.location.href('/html/Post.html');
 })
 
 const avatar = document.querySelector('.profile-header');
